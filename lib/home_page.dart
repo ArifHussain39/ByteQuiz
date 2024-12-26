@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:byte_quiz/home_page_large.dart';
 import 'package:byte_quiz/home_page_small.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,12 +8,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth <= 800) {
         return const HomePageSmall();
-      } else {
-        return HomePageLarge(
-            titleSectionWidth: constraints.maxWidth / 100 * 40);
-      }
     });
   }
 }

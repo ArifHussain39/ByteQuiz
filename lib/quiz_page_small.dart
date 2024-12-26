@@ -24,21 +24,24 @@ class QuizPageSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffe8b86d),
+      backgroundColor: const Color(0xff121212), // Dark mode background
       floatingActionButton: FloatingActionButton.extended(
         label: Text(
           'Next',
-          style: GoogleFonts.outfit(
+          style: GoogleFonts.robotoMono(
             fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
+        backgroundColor: const Color(0xff1db954), // Neon green for action button
         onPressed: () => nextButtonOnPressed(),
       ),
       body: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Question Section
+            SizedBox(
               height: questionSectionHeight,
               child: Stack(
                 children: [
@@ -53,9 +56,9 @@ class QuizPageSmall extends StatelessWidget {
                         ),
                         child: Text(
                           question.name,
-                          style: GoogleFonts.outfit(
-                            color: Colors.white,
-                            fontSize: 32.0,
+                          style: GoogleFonts.robotoMono(
+                            color: const Color(0xff1db954), // Neon green
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
@@ -63,40 +66,46 @@ class QuizPageSmall extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Back Button
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       style: IconButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: const Color(0xff1db954),
                       ),
                       icon: const Icon(
                         Icons.arrow_back,
-                        color: Color(0xffe8b86d),
+                        color: Colors.black,
                       ),
                       onPressed: () => backButtonOnPressed(),
                     ),
                   ),
                 ],
-              )),
-          Expanded(
-              child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(32.0),
-                  topRight: Radius.circular(32.0)),
-            ),
-            child: SafeArea(
-              child: AnswerList(
-                question.answers,
-                selectedAnswer: selectedAnswer,
-                itemMaxWidth: 400.0,
-                onTap: (int index) => answerListOnTap(index),
               ),
             ),
-          ))
-        ],
-      )),
+            // Answer List Section
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xff222222), // Slightly lighter dark for answers
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32.0),
+                    topRight: Radius.circular(32.0),
+                  ),
+                ),
+                child: SafeArea(
+                  child: AnswerList(
+                    question.answers,
+                    selectedAnswer: selectedAnswer,
+                    itemMaxWidth: 400.0,
+                    onTap: (int index) => answerListOnTap(index),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
