@@ -6,6 +6,17 @@ class ScorePage extends StatelessWidget {
 
   const ScorePage(this._score, {super.key});
 
+  // Function to return score color based on the score value
+  Color _getScoreColor() {
+    if (_score >= 80) {
+      return const Color(0xff1db954); // Green for excellent
+    } else if (_score >= 50) {
+      return const Color(0xffffc107); // Yellow for good
+    } else {
+      return const Color(0xffff3b30); // Red for low
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +54,13 @@ class ScorePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  // Score Display
+                  // Score Display with dynamic color
                   Text(
                     _score.toString(),
                     style: GoogleFonts.robotoMono(
                       fontSize: 96.0,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xff1db954), // Neon green
+                      color: _getScoreColor(), // Dynamic color based on score
                     ),
                   ),
                   const SizedBox(height: 24.0),
