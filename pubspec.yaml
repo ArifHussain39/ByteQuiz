@@ -1,6 +1,6 @@
 name: byte_quiz
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -21,7 +21,7 @@ dev_dependencies:
 flutter_icons:
   android: true           # Enable icon generation for Android
   ios: false             # Disable icon generation for iOS (if not needed)
-  image_path: "assets/icon/app_icon.png"  # Path to your custom icon
+  image_path: "assets/icon/app_icon.png"  
 
 flutter:
   uses-material-design: true
