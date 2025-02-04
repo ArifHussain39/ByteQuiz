@@ -1,122 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ScorePage extends StatelessWidget {
-  final int _score;
+  final int score;
+  final int totalQuestions;
+  final int correctAnswers;
+  final int incorrectAnswers;
 
-  const ScorePage(this._score, {super.key});
+  const ScorePage({
+    super.key,
+    required this.score,
+    required this.totalQuestions,
+    required this.correctAnswers,
+    required this.incorrectAnswers,
+  });
 
-  // Function to return score color based on the score value
-  Color _getScoreColor() {
-    if (_score >= 80) {
-      return const Color(0xff1db954); // Green for excellent
-    } else if (_score >= 50) {
-      return const Color(0xffffc107); // Yellow for good
+  Color getScoreColor() {
+    if (score >= 80) {
+      return Colors.greenAccent;
+    } else if (score >= 50) {
+      return Colors.orangeAccent;
     } else {
-      return const Color(0xffff3b30); // Red for low
+      return Colors.redAccent;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff121212), // Dark mode background
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Container(
-              width: 320.0,
-              constraints: const BoxConstraints(minHeight: 380.0),
+      appBar: AppBar(
+        title: const Text('Quiz Result'),
+        backgroundColor: const Color(0xff1db954), // Neon green
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color:
-                    const Color(0xff222222), // Slightly lighter dark container
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    blurRadius: 8.0,
-                    spreadRadius: 2.0,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                color: getScoreColor(),
+                borderRadius: BorderRadius.circular(12.0),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Score Heading
-                    const Text(
-                      'Your Score',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    // Score Display with dynamic color
-                    Flexible(
-                      child: Text(
-                        _score.toString(),
-                        style: GoogleFonts.robotoMono(
-                          fontSize: 96.0,
-                          fontWeight: FontWeight.bold,
-                          color: _getScoreColor(), // Dynamic color based on score
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24.0),
-                    // Motivational Message
-                    Flexible(
-                      child: Text(
-                        _score > 70
-                            ? 'Excellent job! Keep coding!'
-                            : 'Good effort! Keep practicing!',
-                        style: GoogleFonts.robotoMono(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white70,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const Spacer(),
-                    // Finish Button
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 16.0), // Add margin at the bottom
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color(0xff1db954), // Neon green
-                          foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12.0,
-                            horizontal: 32.0,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Finish',
-                          style: GoogleFonts.robotoMono(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+              child: Text(
+                'Score: $score%',
+                style: const TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
+            const SizedBox(height: 16.0),
+            _buildStatCard('Total Questions', totalQuestions.toString()),
+            _buildStatCard('Correct Answers', correctAnswers.toString()),
+            _buildStatCard('Incorrect Answers', incorrectAnswers.toString()),
+            const SizedBox(height: 32.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black, backgroundColor: const Color(0xff1db954),
+                textStyle: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+              ),
+              child: const Text('Back to Home'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String title, String value) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text(
+          '$title: $value',
+          style: const TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
+          textAlign: TextAlign.center,
         ),
       ),
     );

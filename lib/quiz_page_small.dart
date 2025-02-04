@@ -7,18 +7,24 @@ class QuizPageSmall extends StatelessWidget {
   final double questionSectionHeight;
   final Question question;
   final int? selectedAnswer;
+  final int? correctAnswer;
   final Function backButtonOnPressed;
   final Function(int index) answerListOnTap;
   final Function() nextButtonOnPressed;
+  final int currentQuestionIndex;
+  final int totalQuestions;
 
   const QuizPageSmall({
     super.key,
     required this.questionSectionHeight,
     required this.question,
     this.selectedAnswer,
+    this.correctAnswer,
     required this.backButtonOnPressed,
     required this.answerListOnTap,
     required this.nextButtonOnPressed,
+    required this.currentQuestionIndex,
+    required this.totalQuestions,
   });
 
   @override
@@ -40,6 +46,38 @@ class QuizPageSmall extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Question Tracker
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Question ${currentQuestionIndex + 1} of $totalQuestions',
+                    style: GoogleFonts.robotoMono(
+                      color: const Color(0xff1db954), // Neon green
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(totalQuestions, (index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        width: 20.0,
+                        height: 20.0,
+                        decoration: BoxDecoration(
+                          color: index <= currentQuestionIndex
+                              ? const Color(0xff1db954)
+                              : Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
             // Question Section
             SizedBox(
               height: questionSectionHeight,
@@ -97,6 +135,7 @@ class QuizPageSmall extends StatelessWidget {
                   child: AnswerList(
                     question.answers,
                     selectedAnswer: selectedAnswer,
+                    correctAnswer: correctAnswer,
                     itemMaxWidth: 400.0,
                     onTap: (int index) => answerListOnTap(index),
                   ),
